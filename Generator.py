@@ -8,6 +8,11 @@ allcharlist = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
                "$", "%", "^", "&", "*", "(", ")", "[", "]", "{", "}", "|", ";",
                ":", "'", ",", ".", "<", ">", "?", "/"]
 
+def syntaxerror():
+    print("* * * * * * * * * * * * * * * * * * * * * * *")
+    print("Please try to answer with one of the prompts.")
+    print("* * * * * * * * * * * * * * * * * * * * * * *\n")
+
 def askagain():
     useagain = input("Would you like to use this script again?\n[Yes/No]\n>")
     if useagain.lower() == "yes":
@@ -21,39 +26,31 @@ def askagain():
 def welcome():
     choice = input("Do you want to: \nGenerate a password \nOR \nCheck the security of a existing password \nAnswers: [Generate/Check] \n>")
     if choice.lower() == "generate":
-        security_lvl = input("What security level would you like your password? \n[Easy, Medium, Hard]\n>")
-        generator(security_lvl)
+        generator(input("What security level would you like your password? \n[Easy, Medium, Hard]\n>"))
     elif choice.lower() == "check":
         inputpassword = input("Please enter a password, so I can check the security.\n>")
         check(inputpassword)
     else:
-        print("* * * * * * * * * * * * * * * * * * * * * * *")
-        print("Please try to answer with one of the prompts.")
-        print("* * * * * * * * * * * * * * * * * * * * * * *\n")
+        syntaxerror()
         welcome()
 
-def generator(security_lvl):
+def simple_generator(difficulty, min, max):
     password = ""
+    print("Your " + difficulty.lower() + " level password is:")
+    for num in range(0, random.randint(min, max)):
+        password = password + allcharlist[random.randint(0, len(allcharlist) - 1)]
+    print(password)
+    askagain()
+
+def generator(security_lvl):
     if security_lvl.lower() == "easy":
-        print("Your Easy level password is:")
-        for num in range(0, random.randint(7,10)):
-            password = password + allcharlist[random.randint(0, len(allcharlist)-1)]
-        print(password)
-        askagain()
+        simple_generator(security_lvl.lower(), 7, 9)
     elif security_lvl.lower() == "medium":
-        print("Your Medium level password is:")
-        for num in range(0, random.randint(11,14)):
-            password = password + allcharlist[random.randint(0, 85)]
-        print(password)
-        askagain()
+        simple_generator(security_lvl.lower(), 10, 14)
     elif security_lvl.lower() == "hard":
-        print("Your Hard level password is:")
-        for num in range(0, random.randint(15,20)):
-            password = password + allcharlist[random.randint(0, 85)]
-        print(password)
-        askagain()
+        simple_generator(security_lvl.lower(), 15, 20)
     else:
-        print("Please try to answer with one of the prompts.")
+        syntaxerror()
         generator(input("What security level would you like your password? \n[Easy, Medium, Hard]\n>"))
 
 def check(input_password):
