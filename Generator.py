@@ -11,6 +11,8 @@ allcharlist = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
 def syntaxerror():
     print("* * * * * * * * * * * * * * * * * * * * * * *")
     print("Please try to answer with one of the prompts.")
+
+def astline():
     print("* * * * * * * * * * * * * * * * * * * * * * *\n")
 
 def askagain():
@@ -18,16 +20,30 @@ def askagain():
     if useagain.lower() == "yes":
         welcome()
     elif useagain.lower() == "no":
+        astline()
         print("Thank you for using this password generator.\nHave a good day!")
     else:
+        syntaxerror()
+        astline()
         askagain()
 
-
 def welcome():
+    astline()
     choice = input("Do you want to: \nGenerate a password \nOR \nCheck the security of a existing password \nAnswers: [Generate/Check] \n>")
     if choice.lower() == "generate":
-        generator(input("What security level would you like your password? \n[Easy, Medium, Hard]\n>"))
+        astline()
+        word_or_rand = input("Would you like your password to be\nRandomly generated\nOR\nA combination of words?\n[Random/Word]\n>")
+        if word_or_rand.lower() == "random":
+            astline()
+            generator(input("What security level would you like your password? \n[Easy, Medium, Hard]\n>"))
+        elif word_or_rand.lower() == "word":
+            astline()
+            print("This mode is still being implemented")
+        else:
+            syntaxerror()
+            welcome()
     elif choice.lower() == "check":
+        astline()
         inputpassword = input("Please enter a password, so I can check the security.\n>")
         check(inputpassword)
     else:
@@ -36,6 +52,7 @@ def welcome():
 
 def simple_generator(difficulty, min, max):
     password = ""
+    astline()
     print("Your " + difficulty.lower() + " level password is:")
     for num in range(0, random.randint(min, max)):
         password = password + allcharlist[random.randint(0, len(allcharlist) - 1)]
@@ -63,10 +80,13 @@ def check(input_password):
         elif input_password.count(letter) > 3:
             password_value -= 1
     if password_value <= 60:
+        astline()
         print("You probably need to change your password.")
     elif password_value <= 90:
+        astline()
         print("This is a good password, very difficult to bruteforce.")
     elif password_value > 90:
+        astline()
         print("This is a great password\nJust remember it, so you don't forget it.")
     askagain()
 
